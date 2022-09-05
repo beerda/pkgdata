@@ -48,8 +48,14 @@ list_data <- function(all = TRUE) {
     libpath <- datasets$libpath
     datasets <- datasets[, -2]
 
-    datasets$loadable <- .foreach_dataset(datasets, logical(1), FALSE, function(d) {
-        !is.null(d)
+    datasets$records <- .foreach_dataset(datasets, integer(1), NA_integer_, function(d) {
+        result <- nrow(d)
+        ifelse(is.null(result), length(d), result)
+    })
+
+    datasets$variables <- .foreach_dataset(datasets, integer(1), NA_integer_, function(d) {
+        result <- ncol(d)
+        ifelse(is.null(result), NA_integer_, result)
     })
 
     datasets$class <- .foreach_dataset(datasets, character(1), NA_character_, function(d) {
@@ -68,38 +74,16 @@ list_data <- function(all = TRUE) {
     datasets$mode <- .foreach_dataset(datasets, character(1), NA_character_, mode)
     datasets$type <- .foreach_dataset(datasets, character(1), NA_character_, typeof)
 
-    datasets$records <- .foreach_dataset(datasets, integer(1), NA_integer_, function(d) {
-        result <- nrow(d)
-        ifelse(is.null(result), length(d), result)
-    })
-
-    datasets$variables <- .foreach_dataset(datasets, integer(1), NA_integer_, function(d) {
-        result <- ncol(d)
-        ifelse(is.null(result), NA_integer_, result)
-    })
-
-    datasets$firstVariable <- .foreach_dataset(datasets, character(1), NA_character_, function(d) {
-        if (is.array(d) || is.data.frame(d)) {
-            result <- colnames(d)[1]
-            return(ifelse(is.null(result), NA_character_, result))
-        }
-        return(NA_character_)
-    })
-
-    datasets$lastVariable <- .foreach_dataset(datasets, character(1), NA_character_, function(d) {
-        if (is.array(d) || is.data.frame(d)) {
-            result <- colnames(d)[ncol(d)]
-            return(ifelse(is.null(result), NA_character_, result))
-        }
-        return(NA_character_)
-    })
-
     datasets$numericVariables <- .count_variables(datasets, is.numeric)
     datasets$factorVariables <- .count_variables(datasets, is.factor)
     datasets$characterVariables <- .count_variables(datasets, is.character)
     datasets$logicalVariables <- .count_variables(datasets, is.logical)
 
-    for (col in c('class', 'mode', 'type')) {
+    datasets$loadable <- .foreach_dataset(datasets, logical(1), FALSE, function(d) {
+        !is.null(d)
+    })
+
+    for (col in c('package', 'class', 'mode', 'type')) {
         datasets[[col]] <- as.factor(datasets[[col]])
     }
 
