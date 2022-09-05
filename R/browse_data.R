@@ -11,6 +11,8 @@
 #' @importFrom shiny req
 #' @importFrom shiny shinyApp
 #' @importFrom shiny fluidPage
+#' @importFrom shiny fluidRow
+#' @importFrom shiny column
 #' @importFrom shiny titlePanel
 #' @importFrom shiny sidebarLayout
 #' @importFrom shiny sidebarPanel
@@ -28,6 +30,8 @@
 #' @importFrom tools Rd_db
 #' @importFrom ggplot2 ggplot
 #' @importFrom ggplot2 geom_histogram
+#' @importFrom ggplot2 geom_bar
+#' @importFrom ggplot2 coord_flip
 #' @importFrom ggplot2 aes
 browse_data <- function(data_list = list_data(TRUE)) {
     window_name <- 'Package Data Browser'
