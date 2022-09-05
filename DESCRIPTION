@@ -1,0 +1,11 @@
+Package: pkgdata
+Title: Search, filter and browse data provided by installed R packages
+Version: 0.0.0.9000
+Authors@R: 
+    person("Michal", "Burda", , "michal.burda@osu.cz", role = c("aut", "cre"),
+           comment = c(ORCID = "000-0002-4182-4407"))
+Description: Search, filter by multiple criteria and browse data provided by installed R packages
+License: GPL (>= 3)
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.0
